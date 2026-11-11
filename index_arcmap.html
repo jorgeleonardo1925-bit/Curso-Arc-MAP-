@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso Práctico de ArcMap (2 Horas) - Presentación Ejecutiva</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts: Inter & Space Grotesk -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            900: '#0a1128',
+                            800: '#0f172a',
+                            700: '#1e293b',
+                            600: '#334155',
+                        },
+                        gold: {
+                            400: '#facc15',
+                            500: '#eab308',
+                            600: '#ca8a04',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Space Grotesk', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a1128;
+            color: #f8fafc;
+            overflow: hidden;
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+        /* Custom scrollbar for slide content if needed */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col justify-between select-none">
+
+    <!-- Top Navigation Header -->
+    <header class="w-full px-8 py-4 bg-navy-900/80 backdrop-blur border-b border-navy-600 flex justify-between items-center z-50">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-lg bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400">
+                <i class="fa-solid fa-map-location-dot text-xl"></i>
+            </div>
+            <div>
+                <h1 class="font-heading font-bold text-lg text-white tracking-wide">Taller Exprés ArcMap</h1>
+                <p class="text-xs text-slate-400">Curso Intensivo • 120 Minutos</p>
+            </div>
+        </div>
+        
+        <!-- Progress Bar Indicator -->
+        <div class="hidden md:flex flex-col items-center w-72">
+            <div class="flex justify-between w-full text-xs text-slate-400 mb-1">
+                <span id="slide-indicator">Diapositiva 1 de 12</span>
+                <span id="progress-percent">8%</span>
+            </div>
+            <div class="w-full bg-navy-700 h-2 rounded-full overflow-hidden">
+                <div id="progress-bar" class="bg-gradient-to-r from-gold-600 to-gold-400 h-full w-0 transition-all duration-300"></div>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-3">
+            <button onclick="toggleFullscreen()" title="Pantalla Completa" class="px-3 py-2 rounded-lg bg-navy-800 hover:bg-navy-700 border border-navy-600 text-slate-300 transition text-sm">
+                <i class="fa-solid fa-expand"></i>
+            </button>
+            <button onclick="resetSlides()" title="Reiniciar" class="px-3 py-2 rounded-lg bg-navy-800 hover:bg-navy-700 border border-navy-600 text-slate-300 transition text-sm">
+                <i class="fa-solid fa-rotate-right"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Presentation Viewport -->
+    <main class="flex-grow relative flex items-center justify-center p-6 md:p-12 overflow-hidden">
+
+        <!-- SLIDE 1: Portada -->
+        <div class="slide active flex-col justify-center max-w-5xl w-full h-full animate-fadeIn" data-slide="1">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs font-semibold tracking-wider mb-6 w-max">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>CAPACITACIÓN SIG PROFESIONAL</span>
+            </div>
+            <h1 class="font-heading text-4xl md:text-6xl font-bold text-white tracking-tight leading-tight mb-6">
+                Curso Práctico de ArcMap <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600">Fundamentos y Cartografía</span>
+            </h1>
+            <p class="text-slate-300 text-lg md:text-xl max-w-2xl mb-10 font-light">
+                Domina la interfaz, gestión vectorial, simbología temática y maquetación ejecutiva en tan solo 2 horas de taller práctico.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t border-navy-600/80 max-w-3xl">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-lg bg-navy-800 border border-navy-600 flex items-center justify-center text-gold-400">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-slate-400">Duración Total</div>
+                        <div class="font-semibold text-white text-sm">120 Minutos</div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-lg bg-navy-800 border border-navy-600 flex items-center justify-center text-gold-400">
+                        <i class="fa-solid fa-desktop"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-slate-400">Software</div>
+                        <div class="font-semibold text-white text-sm">ArcGIS Desktop / ArcMap</div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-lg bg-navy-800 border border-navy-600 flex items-center justify-center text-gold-400">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-slate-400">Modalidad</div>
+                        <div class="font-semibold text-white text-sm">100% Práctico</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Agenda del Curso -->
+        <div class="slide flex-col justify-center max-w-6xl w-full h-full" data-slide="2">
+            <div class="mb-8">
+                <span class="text-gold-400 font-semibold text-xs tracking-wider uppercase">PROGRAMA ACADÉMICO</span>
+                <h2 class="font-heading text-3xl md:text-4xl font-bold text-white mt-1">Estructura de la Sesión</h2>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Mod 1 -->
+                <div class="bg-navy-800/80 border border-navy-600 rounded-xl p-6 relative overflow-hidden group hover:border-gold-500/50 transition">
+                    <div class="absolute top-0 left-0 h-1 bg-gold-500 w-full"></div>
+                    <span class="text-xs font-bold text-gold-400 bg-gold-500/10 px-2.5 py-1 rounded-md">MÓDULO 1 • 20 MIN</span>
+                    <h3 class="font-heading font-bold text-lg text-white mt-4 mb-2">Interfaz y Configuración</h3>
+                    <p class="text-slate-400 text-sm">ArcMap vs ArcCatalog, reconocimiento de paneles, sistema de coordenadas y carpetas.</p>
+                </div>
+                <!-- Mod 2 -->
+                <div class="bg-navy-800/80 border border-navy-600 rounded-xl p-6 relative overflow-hidden group hover:border-gold-500/50 transition">
+                    <div class="absolute top-0 left-0 h-1 bg-gold-500 w-full"></div>
+                    <span class="text-xs font-bold text-gold-400 bg-gold-500/10 px-2.5 py-1 rounded-md">MÓDULO 2 • 30 MIN</span>
+                    <h3 class="font-heading font-bold text-lg text-white mt-4 mb-2">Datos y Atributos</h3>
+                    <p class="text-slate-400 text-sm">Carga vectorial y ráster, orden de capas, navegación, tablas de atributos e Identify.</p>
+                </div>
+                <!-- Mod 3 -->
+                <div class="bg-navy-800/80 border border-navy-600 rounded-xl p-6 relative overflow-hidden group hover:border-gold-500/50 transition">
+                    <div class="absolute top-0 left-0 h-1 bg-gold-500 w-full"></div>
+                    <span class="text-xs font-bold text-gold-400 bg-gold-500/10 px-2.5 py-1 rounded-md">MÓDULO 3 • 35 MIN</span>
+                    <h3 class="font-heading font-bold text-lg text-white mt-4 mb-2">Simbología y Georref.</h3>
+                    <p class="text-slate-400 text-sm">Clasificación temática cualitativa/cuantitativa y puntos de control ráster.</p>
+                </div>
+                <!-- Mod 4 -->
+                <div class="bg-navy-800/80 border border-navy-600 rounded-xl p-6 relative overflow-hidden group hover:border-gold-500/50 transition">
+                    <div class="absolute top-0 left-0 h-1 bg-gold-500 w-full"></div>
+                    <span class="text-xs font-bold text-gold-400 bg-gold-500/10 px-2.5 py-1 rounded-md">MÓDULO 4 • 25 MIN</span>
+                    <h3 class="font-heading font-bold text-lg text-white mt-4 mb-2">Layout y Salida</h3>
+                    <p class="text-slate-400 text-sm">Composición de página, elementos obligatorios y exportación en alta calidad (300 DPI).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Módulo 1 - ArcMap vs ArcCatalog -->
+        <div class="slide flex-col justify-center max-w-6xl w-full h-full" data-slide="3">
+            <div class="mb-6">
+                <span class="text-gold-400 font-semibold text-xs tracking-wider uppercase">MÓDULO 1: INTRODUCCIÓN Y CONFIGURACIÓN (20 MIN)</span>
+                <h2 class="font-heading text-3xl font-bold text-white mt-1">Componentes Principales: ArcMap vs. ArcCatalog</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-12 h-12 rounded-lg bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 text-xl">
+                                <i class="fa-solid fa-map"></i>
+                            </div>
+                            <h3 class="font-heading font-bold text-xl text-white">ArcMap</h3>
+                        </div>
+                        <ul class="space-y-3 text-slate-300 text-sm">
+                            <li class="flex items-start"><i class="fa-solid fa-check text-gold-400 mt-1 mr-3"></i><span>Núcleo de visualización, edición, análisis espacial y maquetación.</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-gold-400 mt-1 mr-3"></i><span>Carga capas geográficas y realiza operaciones analíticas (filtros, estadísticas).</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-gold-400 mt-1 mr-3"></i><span>Guarda archivos con extensión <code class="bg-navy-900 px-1.5 py-0.5 rounded text-gold-300">.mxd</code> (referencias de rutas, no los datos en sí).</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-12 h-12 rounded-lg bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 text-xl">
+                                <i class="fa-solid fa-folder-tree"></i>
+                            </div>
+                            <h3 class="font-heading font-bold text-xl text-white">ArcCatalog</h3>
+                        </div>
+                        <ul class="space-y-3 text-slate-300 text-sm">
+                            <li class="flex items-start"><i class="fa-solid fa-check text-gold-400 mt-1 mr-3"></i><span>Explorador de archivos inteligente y especializado en geografía.</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-gold-400 mt-1 mr-3"></i><span>Gestiona, organiza y previsualiza Geodatabases, Shapefiles y tablas.</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-gold-400 mt-1 mr-3"></i><span>Integrado en versiones modernas como panel lateral (<code class="bg-navy-900 px-1.5 py-0.5 rounded text-gold-300">Catalog Window</code>).</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Módulo 1 - Reconocimiento de Interfaz -->
+        <div class="slide flex-col justify-center max-w-6xl w-full h-full" data-slide="4">
+            <div class="mb-6">
+                <span class="text-gold-400 font-semibold text-xs tracking-wider uppercase">MÓDULO 1: INTRODUCCIÓN Y CONFIGURACIÓN</span>
+                <h2 class="font-heading text-3xl font-bold text-white mt-1">Reconocimiento de la Interfaz de ArcMap</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-6">
+                    <div class="text-gold-400 text-2xl mb-4"><i class="fa-solid fa-list-check"></i></div>
+                    <h3 class="font-heading font-bold text-lg text-white mb-2">Tabla de Contenidos (TOC)</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Ubicada a la izquierda. Controla el orden de dibujo (<span class="text-gold-300">draw order</span>), visibilidad de capas y acceso directo a propiedades de simbología.
+                    </p>
+                </div>
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-6">
+                    <div class="text-gold-400 text-2xl mb-4"><i class="fa-solid fa-compass-drafting"></i></div>
+                    <h3 class="font-heading font-bold text-lg text-white mb-2">Vista de Datos (Data View)</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Lienzo principal de trabajo. Diseñado para explorar, navegar, consultar, editar y realizar análisis espaciales puros sin márgenes de papel.
+                    </p>
+                </div>
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-6">
+                    <div class="text-gold-400 text-2xl mb-4"><i class="fa-solid fa-print"></i></div>
+                    <h3 class="font-heading font-bold text-lg text-white mb-2">Vista de Diseño (Layout View)</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Muestra el mapa en una hoja virtual con escala, leyenda y norte, preparado exclusivamente para la composición final del reporte.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Módulo 1 - Configuración y Carpetas -->
+        <div class="slide flex-col justify-center max-w-6xl w-full h-full" data-slide="5">
+            <div class="mb-6">
+                <span class="text-gold-400 font-semibold text-xs tracking-wider uppercase">MÓDULO 1: INTRODUCCIÓN Y CONFIGURACIÓN</span>
+                <h2 class="font-heading text-3xl font-bold text-white mt-1">Configuración del Marco de Datos y Directorios</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-8">
+                    <h3 class="font-heading font-bold text-xl text-white mb-4 flex items-center">
+                        <i class="fa-solid fa-globe text-gold-400 mr-3"></i> Sistema de Coordenadas
+                    </h3>
+                    <p class="text-slate-300 text-sm mb-4">Evita deformaciones geométricas al superponer fuentes:</p>
+                    <ul class="space-y-2 text-slate-300 text-sm">
+                        <li><strong class="text-white">1.</strong> Click derecho en <code class="text-gold-300">Layers</code> &gt; <code class="text-gold-300">Properties</code>.</li>
+                        <li><strong class="text-white">2.</strong> Pestaña <code class="text-gold-300">Coordinate System</code>.</li>
+                        <li><strong class="text-white">3.</strong> Seleccionar Geográfico (<span class="text-gold-300">WGS 1984</span>) o Proyectado (<span class="text-gold-300">UTM Zona 17N/18N</span>).</li>
+                    </ul>
+                </div>
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-8">
+                    <h3 class="font-heading font-bold text-xl text-white mb-4 flex items-center">
+                        <i class="fa-solid fa-folder-plus text-gold-400 mr-3"></i> Conexión a Carpetas
+                    </h3>
+                    <p class="text-slate-300 text-sm mb-4">Previene enlaces rotos (<span class="text-rose-400">!</span> rojo en capas):</p>
+                    <ul class="space-y-2 text-slate-300 text-sm">
+                        <li><strong class="text-white">1.</strong> Abrir panel <code class="text-gold-300">Catalog</code>.</li>
+                        <li><strong class="text-white">2.</strong> Click en el botón <code class="text-gold-300">Connect to Folder</code> (carpeta con `+` verde).</li>
+                        <li><strong class="text-white">3.</strong> Vincular la carpeta raíz de trabajo (<code class="text-gold-300">C:\Curso_ArcMap_Datos</code>).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Módulo 2 - Tipos de Datos -->
+        <div class="slide flex-col justify-center max-w-6xl w-full h-full" data-slide="6">
+            <div class="mb-6">
+                <span class="text-gold-400 font-semibold text-xs tracking-wider uppercase">MÓDULO 2: CARGA, EXPLORACIÓN Y TABLAS (30 MIN)</span>
+                <h2 class="font-heading text-3xl font-bold text-white mt-1">Adición de Capas Vectoriales y Ráster</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-8">
+                    <h3 class="font-heading font-bold text-xl text-white mb-4 text-gold-400">
+                        <i class="fa-solid fa-shapes mr-2"></i> Capas Vectoriales (.shp)
+                    </h3>
+                    <p class="text-slate-300 text-sm mb-4">Representan objetos reales mediante geometrías puras:</p>
+                    <ul class="space-y-2 text-slate-300 text-sm">
+                        <li><strong class="text-white">Puntos:</strong> Ubicaciones puntuales (escuelas, torres).</li>
+                        <li><strong class="text-white">Líneas:</strong> Elementos longitudinales (carreteras, ríos).</li>
+                        <li><strong class="text-white">Polígonos:</strong> Superficies cerradas (distritos, lagos).</li>
+                    </ul>
+                </div>
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-8">
+                    <h3 class="font-heading font-bold text-xl text-white mb-4 text-gold-400">
+                        <i class="fa-solid fa-image mr-2"></i> Capas Ráster (.tif, DEM)
+                    </h3>
+                    <p class="text-slate-300 text-sm mb-4">Mallas de celdas o píxeles con valores numéricos:</p>
+                    <ul class="space-y-2 text-slate-300 text-sm">
+                        <li><strong class="text-white">Imágenes Satelitales:</strong> Fotografías aéreas y multiespectrales.</li>
+                        <li><strong class="text-white">Modelos de Elevación (DEM):</strong> Matriz de altitud del terreno.</li>
+                        <li><strong class="text-white">Carga:</strong> Botón <code class="text-gold-300">Add Data</code> (+) o arrastrar desde Catalog.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: Módulo 2 - Exploración y Atributos -->
+        <div class="slide flex-col justify-center max-w-6xl w-full h-full" data-slide="7">
+            <div class="mb-6">
+                <span class="text-gold-400 font-semibold text-xs tracking-wider uppercase">MÓDULO 2: CARGA Y ATRIBUTOS</span>
+                <h2 class="font-heading text-3xl font-bold text-white mt-1">Orden de Capas, Navegación y Tabla de Atributos</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-6">
+                    <h3 class="font-heading font-bold text-lg text-white mb-3 text-gold-400">1. Orden de Capas</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Se dibujan de abajo hacia arriba en el TOC. <strong class="text-white">Regla de oro:</strong> Polígonos al fondo, líneas al centro y puntos arriba de todo.
+                    </p>
+                </div>
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-6">
+                    <h3 class="font-heading font-bold text-lg text-white mb-3 text-gold-400">2. Tabla de Atributos</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Asocia bases de datos a geometrías. Columnas = Campos (variables), Filas = Registros (objetos). Permite selección interactiva y filtrado.
+                    </p>
+                </div>
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-6">
+                    <h3 class="font-heading font-bold text-lg text-white mb-3 text-gold-400">3. Herramienta Identify</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Icono con la letra <code class="text-gold-300">i</code> azul. Permite hacer click directo en cualquier elemento del mapa para consultar sus atributos tabulares puntuales.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: Módulo 3 - Simbología Temática -->
+        <div class="slide flex-col justify-center max-w-6xl w-full h-full" data-slide="8">
+            <div class="mb-6">
+                <span class="text-gold-400 font-semibold text-xs tracking-wider uppercase">MÓDULO 3: SIMBOLOGÍA Y GEORREFERENCIACIÓN (35 MIN)</span>
+                <h2 class="font-heading text-3xl font-bold text-white mt-1">Simbología: De la Visualización Plana al Mapa Temático</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-8">
+                    <h3 class="font-heading font-bold text-xl text-white mb-3 text-gold-400">
+                        <i class="fa-solid fa-palette mr-2"></i> Valores Únicos (Categorías)
+                    </h3>
+                    <p class="text-slate-300 text-sm mb-4">Ideal para <strong class="text-white">datos cualitativos</strong> (uso de suelo, tipos de vía, distritos):</p>
+                    <ul class="space-y-2 text-slate-300 text-sm">
+                        <li>Doble click en capa &gt; <code class="text-gold-300">Symbology</code> &gt; <code class="text-gold-300">Categories</code>.</li>
+                        <li>Seleccionar columna de clasificación en <code class="text-gold-300">Value Field</code>.</li>
+                        <li>Click en <code class="text-gold-300">Add All Values</code> para asignar colores distintos.</li>
+                    </ul>
+                </div>
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-8">
+                    <h3 class="font-heading font-bold text-xl text-white mb-3 text-gold-400">
+                        <i class="fa-solid fa-chart-pie mr-2"></i> Colores Graduados (Cantidades)
+                    </h3>
+                    <p class="text-slate-300 text-sm mb-4">Ideal para <strong class="text-white">datos cuantitativos/estadísticos</strong> (población, rangos térmicos):</p>
+                    <ul class="space-y-2 text-slate-300 text-sm">
+                        <li>Symbology &gt; <code class="text-gold-300">Quantities</code> &gt; <code class="text-gold-300">Graduated colors</code>.</li>
+                        <li>Elegir columna numérica y método de clasificación (<span class="text-gold-300">Jenks / Quantiles</span>).</li>
+                        <li>Definir número de clases y rampa de color coherente.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: Módulo 3 - Georreferenciación -->
+        <div class="slide flex-col justify-center max-w-6xl w-full h-full" data-slide="9">
+            <div class="mb-6">
+                <span class="text-gold-400 font-semibold text-xs tracking-wider uppercase">MÓDULO 3: SIMBOLOGÍA Y GEORREFERENCIACIÓN</span>
+                <h2 class="font-heading text-3xl font-bold text-white mt-1">Fundamentos y Práctica de Georreferenciación</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-8">
+                    <h3 class="font-heading font-bold text-lg text-white mb-3 text-gold-400">Concepto Clave</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                        Alinea imágenes raster sin coordenadas (planos escaneados, fotos aéreas) mediante <strong class="text-white">Puntos de Control (GCP)</strong> vinculados a capas vectoriales base con referencia real conocida.
+                    </p>
+                    <div class="bg-navy-900/60 p-3 rounded-lg border border-navy-600 text-xs text-gold-300">
+                        <i class="fa-solid fa-triangle-exclamation mr-2"></i> Se recomienda mínimo 4 a 5 puntos distribuidos uniformemente.
+                    </div>
+                </div>
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-8">
+                    <h3 class="font-heading font-bold text-lg text-white mb-3 text-gold-400">Barra Georeferencing</h3>
+                    <ul class="space-y-2 text-slate-300 text-sm">
+                        <li><strong class="text-white">1.</strong> Activar barra <code class="text-gold-300">Georeferencing</code>.</li>
+                        <li><strong class="text-white">2.</strong> Usar <code class="text-gold-300">Fit to Display</code> para acercar la imagen ráster.</li>
+                        <li><strong class="text-white">3.</strong> Herramienta <code class="text-gold-300">Add Control Points</code>: Click en ráster (origen) y luego en vector (destino).</li>
+                        <li><strong class="text-white">4.</strong> <code class="text-gold-300">Update Georeferencing</code> o <code class="text-gold-300">Rectify</code> para guardar.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: Módulo 4 - Maquetación (Layout View) -->
+        <div class="slide flex-col justify-center max-w-6xl w-full h-full" data-slide="10">
+            <div class="mb-6">
+                <span class="text-gold-400 font-semibold text-xs tracking-wider uppercase">MÓDULO 4: ELABORACIÓN Y EXPORTACIÓN (25 MIN)</span>
+                <h2 class="font-heading text-3xl font-bold text-white mt-1">Transición a Layout View y Configuración de Página</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-8">
+                    <h3 class="font-heading font-bold text-lg text-white mb-3 text-gold-400">Cambio de Vista</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                        Permite pasar del análisis puro al diseño de página para impresión o entrega ejecutiva.
+                    </p>
+                    <ul class="space-y-2 text-slate-300 text-sm">
+                        <li><strong class="text-white">Opción A:</strong> Icono de hoja en la esquina inferior izquierda de la pantalla.</li>
+                        <li><strong class="text-white">Opción B:</strong> Menú superior <code class="text-gold-300">View &gt; Layout View</code>.</li>
+                    </ul>
+                </div>
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-8">
+                    <h3 class="font-heading font-bold text-lg text-white mb-3 text-gold-400">Page and Print Setup</h3>
+                    <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                        Configurar formato físico antes de diagramar componentes:
+                    </p>
+                    <ul class="space-y-2 text-slate-300 text-sm">
+                        <li>Ir a <code class="text-gold-300">File &gt; Page and Print Setup</code>.</li>
+                        <li>Definir tamaño (Carta / A4) y orientación (Portrait / Landscape).</li>
+                        <li>Marcar escala proporcional de elementos al cambiar formato.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: Módulo 4 - Elementos Cartográficos y Exportación -->
+        <div class="slide flex-col justify-center max-w-6xl w-full h-full" data-slide="11">
+            <div class="mb-6">
+                <span class="text-gold-400 font-semibold text-xs tracking-wider uppercase">MÓDULO 4: LAYOUT Y EXPORTACIÓN</span>
+                <h2 class="font-heading text-3xl font-bold text-white mt-1">Elementos Obligatorios y Exportación en Alta Calidad</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-8">
+                    <h3 class="font-heading font-bold text-lg text-white mb-3 text-gold-400">Componentes de Autonomía Visual</h3>
+                    <ul class="space-y-2 text-slate-300 text-sm">
+                        <li><strong class="text-white">Título:</strong> Conciso y descriptivo del ámbito geográfico.</li>
+                        <li><strong class="text-white">Leyenda:</strong> Explica simbología y capas activas del mapa.</li>
+                        <li><strong class="text-white">Barra de Escala / Texto:</strong> Unidades en kilómetros o metros.</li>
+                        <li><strong class="text-white">Flecha de Norte:</strong> Orientación geográfica sobria y profesional.</li>
+                    </ul>
+                </div>
+                <div class="bg-navy-800/70 border border-navy-600 rounded-xl p-8">
+                    <h3 class="font-heading font-bold text-lg text-white mb-3 text-gold-400">Exportación Ejecutiva</h3>
+                    <ul class="space-y-2 text-slate-300 text-sm">
+                        <li><code class="text-gold-300">File &gt; Export Map</code>.</li>
+                        <li>Formatos recomendados: <strong class="text-white">PDF</strong> (reportes formales) o <strong class="text-white">PNG</strong> (diapositivas/web).</li>
+                        <li><strong class="text-gold-400">Resolución clave:</strong> Mínimo <code class="text-gold-300">300 DPI</code> para asegurar máxima nitidez en textos y símbolos.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: Cierre y Preguntas -->
+        <div class="slide flex-col justify-center items-center text-center max-w-4xl w-full h-full" data-slide="12">
+            <div class="w-16 h-16 rounded-full bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 text-2xl mb-6">
+                <i class="fa-solid fa-circle-question"></i>
+            </div>
+            <h2 class="font-heading text-4xl md:text-5xl font-bold text-white mb-4">¡Espacio de Dudas y Preguntas!</h2>
+            <p class="text-slate-300 text-lg max-w-2xl mb-8 font-light">
+                Revisión de mapas exportados, resolución de problemas frecuentes de rutas y coordenadas, y recomendaciones de continuidad hacia ArcGIS Pro o QGIS.
+            </p>
+            <div class="inline-flex items-center space-x-2 text-gold-400 text-sm font-semibold bg-navy-800 border border-navy-600 px-6 py-3 rounded-xl">
+                <i class="fa-solid fa-award mr-2"></i>
+                <span>¡Gracias por participar en el taller práctico de ArcMap!</span>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bottom Navigation Footer -->
+    <footer class="w-full px-8 py-4 bg-navy-900/80 backdrop-blur border-t border-navy-600 flex justify-between items-center z-50">
+        <button onclick="prevSlide()" id="prev-btn" class="px-5 py-2.5 rounded-xl bg-navy-800 hover:bg-navy-700 border border-navy-600 text-slate-200 transition font-medium flex items-center space-x-2 text-sm disabled:opacity-40 disabled:cursor-not-allowed">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Anterior</span>
+        </button>
+
+        <div class="text-xs text-slate-400 hidden sm:block">
+            Usa las teclas <kbd class="bg-navy-800 border border-navy-600 px-2 py-1 rounded text-slate-300 mx-1">←</kbd> <kbd class="bg-navy-800 border border-navy-600 px-2 py-1 rounded text-slate-300 mx-1">→</kbd> para navegar
+        </div>
+
+        <button onclick="nextSlide()" id="next-btn" class="px-5 py-2.5 rounded-xl bg-gold-500 hover:bg-gold-600 text-navy-900 transition font-bold flex items-center space-x-2 text-sm">
+            <span>Siguiente</span>
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </footer>
+
+    <!-- Interactive Script -->
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 12;
+
+        function updateSlide() {
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // Show target slide
+            const activeSlideEl = document.querySelector(`.slide[data-slide="${currentSlide}"]`);
+            if (activeSlideEl) {
+                activeSlideEl.classList.add('active');
+            }
+
+            // Update progress indicator text
+            document.getElementById('slide-indicator').innerText = `Diapositiva ${currentSlide} de ${totalSlides}`;
+            const percent = Math.round((currentSlide / totalSlides) * 100);
+            document.getElementById('progress-percent').innerText = `${percent}%`;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+
+            // Button states
+            document.getElementById('prev-btn').disabled = currentSlide === 1;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides;
+            if (currentSlide === totalSlides) {
+                document.getElementById('next-btn').innerHTML = '<span>Completado</span> <i class="fa-solid fa-check"></i>';
+            } else {
+                document.getElementById('next-btn').innerHTML = '<span>Siguiente</span> <i class="fa-solid fa-arrow-right"></i>';
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        function resetSlides() {
+            currentSlide = 1;
+            updateSlide();
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                prevSlide();
+            }
+        });
+     // Initialize on load
+        window.onload = function() {
+            updateSlide();
+        };
+    </script>
+</body>
+</html>
